@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_4_geodesica/presentation/providers/messageProvider.dart';
+import 'package:flutter_application_4_geodesica/presentation/providers/themeProvider.dart';
+import 'package:flutter_application_4_geodesica/theme/theme.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_application_4_geodesica/presentation/screens/chatMain.dart';
+import 'authS.dart';
+import 'registerS.dart';
+
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ChatProvider()),
+        ChangeNotifierProvider(create: (_) => AppThemeProvider()),
+        // Puedes agregar más providers aquí si los necesitas
+      ],
+      child: MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Obtenemos el provider usando Provider.of
+    final themeProvider = Provider.of<AppThemeProvider>(context, listen: true);
+
+    return MaterialApp(
+      title: 'Mi Aplicación',
+      debugShowCheckedModeBanner: false,
+      theme:
+          AppTheme(
+            selectedColor: themeProvider.selectedColor,
+            isDarkMode: false,
+          ).getTheme(),
+      darkTheme:
+          AppTheme(
+            selectedColor: themeProvider.selectedColor,
+            isDarkMode: true,
+          ).getTheme(),
+      themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => AuthScreen(),
+        '/register': (context) => RegisterScreen(),
+        '/chat': (context) => const ChatScreen(),
+      },
+    );
+  }
+}
