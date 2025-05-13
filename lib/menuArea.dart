@@ -5,7 +5,7 @@ class ChatScreen extends StatelessWidget {
   // Define una clase llamada HelloWorldScreen que extiende StatelessWidget.
   final VoidCallback onLogout;
 
-  ChatScreen({required this.onLogout});
+  const ChatScreen({super.key, required this.onLogout});
 
   // Función para abrir URL
   Future<void> _launchURL(String url) async {
@@ -44,7 +44,7 @@ class ChatScreen extends StatelessWidget {
                   },
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 60,
                         width: 60,
                         child: Image.asset(
@@ -64,7 +64,7 @@ class ChatScreen extends StatelessWidget {
                   },
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 60,
                         width: 60,
                         child: Image.asset(
@@ -84,7 +84,7 @@ class ChatScreen extends StatelessWidget {
                   },
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 60,
                         width: 60,
                         child: Image.asset(
@@ -104,7 +104,7 @@ class ChatScreen extends StatelessWidget {
                   },
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 60,
                         width: 60,
                         child: Image.asset(

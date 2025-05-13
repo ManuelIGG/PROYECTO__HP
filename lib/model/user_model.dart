@@ -1,4 +1,6 @@
+/// Modelo que representa un usuario.
 class UserModel {
+    // Propiedades que almacenan la información del usuario
   final int? id;
   final String fullName;
   final String email;
@@ -6,6 +8,9 @@ class UserModel {
   final String? birthDate;
   final String? document;
   final String? createdAt;
+
+  // Constructor principal que inicializa todas las propiedades
+  // Los campos marcados con required son obligatorios al crear una instancia
 
   UserModel({
     this.id,
@@ -17,6 +22,7 @@ class UserModel {
     this.createdAt,
   });
 
+  // Constructor factory que convierte un Map ( JSON) a un objeto UserModel
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['id'],
@@ -28,7 +34,7 @@ class UserModel {
       createdAt: map['created_at'],
     );
   }
-
+  // Método que convierte el objeto UserModel a un Map
   Map<String, dynamic> toMap() {
     return {
       'id': id,
