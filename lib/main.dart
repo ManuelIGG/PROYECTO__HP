@@ -33,16 +33,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Mi Aplicación',
       debugShowCheckedModeBanner: false,
-      theme:
-          AppTheme(
-            selectedColor: themeProvider.selectedColor,
-            isDarkMode: false,
-          ).getTheme(),
-      darkTheme:
-          AppTheme(
-            selectedColor: themeProvider.selectedColor,
-            isDarkMode: true,
-          ).getTheme(),
+      theme: AppTheme(
+        selectedColor: themeProvider.selectedColor,
+        isDarkMode: false,
+      ).getTheme(),
+      darkTheme: AppTheme(
+        selectedColor: themeProvider.selectedColor,
+        isDarkMode: true,
+      ).getTheme(),
       themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       initialRoute: '/',
       routes: {
