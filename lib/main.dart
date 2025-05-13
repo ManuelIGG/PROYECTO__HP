@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_4_geodesica/presentation/providers/messageProvider.dart';
 import 'package:flutter_application_4_geodesica/presentation/providers/themeProvider.dart';
+import 'package:flutter_application_4_geodesica/presentation/providers/userProvider.dart';
 import 'package:flutter_application_4_geodesica/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_4_geodesica/presentation/screens/chatMain.dart';
@@ -13,6 +14,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ChatProvider()),
         ChangeNotifierProvider(create: (_) => AppThemeProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
         // Puedes agregar más providers aquí si los necesitas
       ],
       child: MyApp(),
@@ -21,6 +23,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Obtenemos el provider usando Provider.of
@@ -29,16 +33,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Mi Aplicación',
       debugShowCheckedModeBanner: false,
-      theme:
-          AppTheme(
-            selectedColor: themeProvider.selectedColor,
-            isDarkMode: false,
-          ).getTheme(),
-      darkTheme:
-          AppTheme(
-            selectedColor: themeProvider.selectedColor,
-            isDarkMode: true,
-          ).getTheme(),
+      theme: AppTheme(
+        selectedColor: themeProvider.selectedColor,
+        isDarkMode: false,
+      ).getTheme(),
+      darkTheme: AppTheme(
+        selectedColor: themeProvider.selectedColor,
+        isDarkMode: true,
+      ).getTheme(),
       themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       initialRoute: '/',
       routes: {

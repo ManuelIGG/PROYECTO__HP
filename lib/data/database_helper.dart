@@ -1,16 +1,17 @@
-import 'dart:async';
+import 'dart:async'; // Para operaciones asíncronas
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:path_provider/path_provider.dart'; // Acceso a directorios del dispositivo
 import 'dart:io';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
   static Database? _database;
+  //Garantiza una única instancia de la clase en toda la app.
 
   // Nombre de la base de datos
   final String _databaseName = "geodesica_app.db";
-  
+
   // Versión de la base de datos
   final int _databaseVersion = 1;
 
@@ -31,7 +32,7 @@ class DatabaseHelper {
   // Getter para la base de datos
   Future<Database> get database async {
     if (_database != null) return _database!;
-    
+
     _database = await _initDatabase();
     return _database!;
   }
@@ -40,7 +41,7 @@ class DatabaseHelper {
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
-    
+
     return await openDatabase(
       path,
       version: _databaseVersion,
@@ -86,7 +87,7 @@ class DatabaseHelper {
       )
     ''');
 
-    // Tabla de Contabilidad (ejemplo básico)
+    // Tabla de Contabilidad 
     await db.execute('''
       CREATE TABLE $tableContabilidad (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -111,71 +112,71 @@ class DatabaseHelper {
         'tipo': 'Ingreso',
         'descripcion': 'Venta de productos',
         'monto': 5000.00,
-        'categoria': 'Ventas'
+        'categoria': 'Ventas',
       },
       {
         'fecha': '2025-01-20',
         'tipo': 'Gasto',
         'descripcion': 'Pago de alquiler',
         'monto': 1200.00,
-        'categoria': 'Alquiler'
+        'categoria': 'Alquiler',
       },
       {
         'fecha': '2025-02-01',
         'tipo': 'Ingreso',
         'descripcion': 'Servicio de consultoría',
         'monto': 3500.00,
-        'categoria': 'Servicios'
+        'categoria': 'Servicios',
       },
       {
         'fecha': '2025-02-10',
         'tipo': 'Gasto',
         'descripcion': 'Compra de materiales',
         'monto': 850.00,
-        'categoria': 'Inventario'
+        'categoria': 'Inventario',
       },
       {
         'fecha': '2025-02-15',
         'tipo': 'Gasto',
         'descripcion': 'Pago de salarios',
         'monto': 7500.00,
-        'categoria': 'Salarios'
+        'categoria': 'Salarios',
       },
       {
         'fecha': '2025-03-01',
         'tipo': 'Ingreso',
         'descripcion': 'Venta de servicios',
         'monto': 6800.00,
-        'categoria': 'Servicios'
+        'categoria': 'Servicios',
       },
       {
         'fecha': '2025-03-10',
         'tipo': 'Gasto',
         'descripcion': 'Pago de impuestos',
         'monto': 1800.00,
-        'categoria': 'Impuestos'
+        'categoria': 'Impuestos',
       },
       {
         'fecha': '2025-03-20',
         'tipo': 'Gasto',
         'descripcion': 'Servicios públicos',
         'monto': 450.00,
-        'categoria': 'Servicios'
+        'categoria': 'Servicios',
       },
       {
         'fecha': '2025-04-01',
         'tipo': 'Ingreso',
         'descripcion': 'Venta mayorista',
         'monto': 12000.00,
-        'categoria': 'Ventas'
+        'categoria': 'Ventas',
       },
       {
         'fecha': '2025-04-15',
         'tipo': 'Gasto',
         'descripcion': 'Mantenimiento de equipo',
         'monto': 980.00,
-        'categoria': 'Mantenimiento'
-      }
+        'categoria': 'Mantenimiento',
+      },
     ];
 
     for (var data in contabilidadData) {
@@ -196,7 +197,7 @@ class DatabaseHelper {
       where: 'email = ?',
       whereArgs: [email],
     );
-    
+
     if (result.isNotEmpty) {
       return result.first;
     }
@@ -255,7 +256,7 @@ class DatabaseHelper {
     Database db = await database;
     List<Map<String, dynamic>> result = await db.rawQuery(
       'SELECT SUM(monto) AS total FROM $tableContabilidad WHERE tipo = ?',
-      ['Ingreso']
+      ['Ingreso'],
     );
     return result.first['total'] as double? ?? 0.0;
   }
@@ -264,7 +265,7 @@ class DatabaseHelper {
     Database db = await database;
     List<Map<String, dynamic>> result = await db.rawQuery(
       'SELECT SUM(monto) AS total FROM $tableContabilidad WHERE tipo = ?',
-      ['Gasto']
+      ['Gasto'],
     );
     return result.first['total'] as double? ?? 0.0;
   }
@@ -273,18 +274,21 @@ class DatabaseHelper {
     Database db = await database;
     List<Map<String, dynamic>> result = await db.rawQuery(
       'SELECT categoria, SUM(monto) AS total FROM $tableContabilidad WHERE tipo = ? GROUP BY categoria',
-      ['Gasto']
+      ['Gasto'],
     );
-    
+
     Map<String, double> gastosPorCategoria = {};
     for (var row in result) {
       gastosPorCategoria[row['categoria'] as String] = row['total'] as double;
     }
-    
+
     return gastosPorCategoria;
   }
 
-  Future<List<Map<String, dynamic>>> getContabilidadByMonth(String month, String year) async {
+  Future<List<Map<String, dynamic>>> getContabilidadByMonth(
+    String month,
+    String year,
+  ) async {
     Database db = await database;
     return await db.query(
       tableContabilidad,
